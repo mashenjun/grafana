@@ -17,7 +17,10 @@ type SQLStoreMock struct {
 	ExpectedAlert         *models.Alert
 	ExpectedPluginSetting *models.PluginSetting
 
-	ExpectedError error
+	ExpectedDashboardSnapshot *models.DashboardSnapshot
+	ExpectedDashboardAclInfo  []*models.DashboardAclInfoDTO
+	ExpectedTeamsByUser       []*models.TeamDTO
+	ExpectedError             error
 }
 
 func NewSQLStoreMock() *SQLStoreMock {
@@ -41,6 +44,7 @@ func (m *SQLStoreMock) DeleteDashboardSnapshot(ctx context.Context, cmd *models.
 }
 
 func (m *SQLStoreMock) GetDashboardSnapshot(query *models.GetDashboardSnapshotQuery) error {
+	query.Result = m.ExpectedDashboardSnapshot
 	return m.ExpectedError
 }
 
@@ -204,6 +208,7 @@ func (m *SQLStoreMock) GetTeamById(ctx context.Context, query *models.GetTeamByI
 }
 
 func (m *SQLStoreMock) GetTeamsByUser(ctx context.Context, query *models.GetTeamsByUserQuery) error {
+	query.Result = m.ExpectedTeamsByUser
 	return m.ExpectedError
 }
 
@@ -337,6 +342,7 @@ func (m *SQLStoreMock) UpdateDashboardACLCtx(ctx context.Context, dashboardID in
 }
 
 func (m *SQLStoreMock) GetDashboardAclInfoList(ctx context.Context, query *models.GetDashboardAclInfoListQuery) error {
+	query.Result = m.ExpectedDashboardAclInfo
 	return m.ExpectedError
 }
 
